@@ -10,8 +10,33 @@ let readdir = BBPromise.promisify(fs.readdir);
 let readFile = BBPromise.promisify(fs.readFile);
 let express = require('express');
 let games = [];
+
+// Server config
 let app = express();
 
+// application middleware
+// 3 arguments: request handler
+app.use(function(request, response, next) {
+  console.log('A request went by', request.path);
+  next();     // go to the next middleware
+  // next(err);  // go to the error middleware
+  // next('router'); // something magical
+  // next('view');   // more magic
+});
+
+// 4 arguments: error request handler
+app.use(function(error, request, response, next) {
+  console.error('Something bad happened', request.path, error);
+  next(error);
+});
+
+// Tell server what to do when it GETs '/'
+app.get('/', function(request, response){  
+  response.contentType('text/html');
+  response.send('<!doctype html><title>Hi, Max</title><html><body>Hi</body></html>');
+})
+
+// Code to read game files
 function createGameFromJson(json) {
   let data = JSON.parse(json);
   let game = new TicTacToeGame({humanFirst: data.humanFirst});
