@@ -36,7 +36,9 @@ app.use(function(error, request, response, next) {
 
 // Tell server what to do when it GETs '/'
 app.get('/', function(request, response){  
-  response.render('index.html');
+  response.render('index.html', {
+    message: 'This is my message'
+  });
 })
 
 // Code to read game files
