@@ -18,6 +18,7 @@ let app = express();
 // Nunjucks config
 nunjucks.configure({
   autoescape: true,
+  watch: true,
   express: app
 });
 
@@ -37,9 +38,12 @@ app.use(function(error, request, response, next) {
 // Tell server what to do when it GETs '/'
 app.get('/', function(request, response){  
   response.render('index.html', {
-    message: 'This is my message'
+    message: 'This is my message',
+    games: globalGames
   });
 })
+
+let globalGames = [];
 
 // Code to read game files
 function createGameFromJson(json) {
@@ -66,9 +70,9 @@ readdir('./sandwich')
     }
     return Promise.all(processedGames);
   })
-  .then(() => console.log(games))
   .then(() => {
     let port = process.env.PORT || 8080;
+    globalGames = games;
     app.listen(port, () => console.log('Listening to port 8080'));
   })
   .catch(err => console.error(err));
