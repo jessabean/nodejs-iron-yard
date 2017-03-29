@@ -16,7 +16,7 @@ let games = [];
 let app = express();
 
 // Nunjucks config
-nunjucks.configure({
+nunjucks.configure('templates', {
   autoescape: true,
   watch: true,
   express: app
