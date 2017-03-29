@@ -41,7 +41,19 @@ app.get('/', function(request, response){
     message: 'This is my message',
     games: globalGames
   });
-})
+});
+
+// Add path for each game based on game index
+app.get('/:gameIndex', function(request, response){
+  let index = Number.parseInt(request.params.gameIndex);
+
+  if(Number.isNaN(index) || !globalGames[index]) {
+    return response.redirect('/');
+  } 
+  response.render('game.html', {
+    index: request.params.gameIndex
+  });
+});
 
 let globalGames = [];
 

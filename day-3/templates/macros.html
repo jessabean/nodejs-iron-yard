@@ -1,0 +1,9 @@
+{% macro personalMessage(humanFirst) %}
+  A game where 
+  {% if game.humanFirst == true %}
+    you
+  {% else %}
+    the computer
+  {% endif %} 
+  went first!
+{% endmacro %}

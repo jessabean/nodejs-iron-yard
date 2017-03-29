@@ -1,13 +1,20 @@
-<!doctype html>
-<html>
-  <head>
-    <title>Day 3 Exercise</title>
-  </head>
-  <body>
-    <h1>Day 3</h1>
-    <p>{{ message }}</p>
-    <div>
-      We have {{ games | length }} games for you!!!!!!
-    </div>
-  </body>
-</html>
+{% extends "parentTemplate.html" %}
+
+{% block mainContent %}
+  <!-- render HTML in macros.html file -->
+  {% include "macros.html" %}
+
+  <!-- allows variables and macros to be accessed in this file -->
+  {% import "macros.html" as myMacros %}
+
+  <h1>Day 3</h1>
+  <p>{{ message }}</p>
+  <div>
+    We have {{ games | length }} games for you!!!!!!
+  </div>
+  <ul>
+    {% for game in games %}
+      <li>{{ myMacros.personalMessage(game.humanFirst) }}</li>
+    {% endfor %}
+  </ul>
+{% endblock %}
