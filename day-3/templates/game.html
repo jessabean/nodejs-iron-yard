@@ -1,7 +1,17 @@
 {% extends "parentTemplate.html" %}
 
 {% block mainContent %}
+
   <h1>Game {{ gameIndex }}</h1>
+
+  {% if game.winner %}
+    <div class="banner">
+      GAME OVER!!!!!
+
+      Winner is {{ 'you!' if game.humanFirst else 'the computer!' }}
+    </div>
+  {% endif %}
+
   <div class="board">
     {% for space in range(9) %}
       <div class="space">
@@ -10,15 +20,18 @@
             X
           {% elif game.board.state[space] === 2 %}
             O
-          {% else %}
+          {% elif not game.board.winner %}
             <form method="POST" action="/{{ gameIndex }}">
               <button class="play-move" data-space="{{space}}" data-row="{{ space // 3 }}" data-column="{{ space % 3 }}"></button>
               <input type="hidden" name="row" value="{{ space // 3 }}" />
               <input type="hidden" name="col" value="{{ space % 3 }}" />
             </form>
+          {% else %}
+            &nbsp;
           {% endif %}
         </div>
       </div>
     {% endfor %}
   </div>
+
 {% endblock %}
