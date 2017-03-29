@@ -19,7 +19,9 @@ let mkdir = function(path) {
 };
 
 function makeNewGame() {
-  let game = new TicTacToeGame();
+  let index = Math.floor(Math.random() * (2 - 1)) + 1;
+  let hf = (index === 1) ? true : false;
+  let game = new TicTacToeGame({humanFirst: hf});
   let col = Math.floor(Math.random() * 3);
   let row = Math.floor(Math.random() * 3);
   game.play(row, col);
