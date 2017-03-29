@@ -6,6 +6,7 @@ const path = './sandwich';
 let TicTacToeGame = require('./src/tic-tac-toe-game');
 let fs = require('fs');
 let BBPromise = require('bluebird');
+let bodyParser = require('body-parser');
 let readdir = BBPromise.promisify(fs.readdir);
 let readFile = BBPromise.promisify(fs.readFile);
 let express = require('express');
@@ -35,6 +36,9 @@ app.use(function(error, request, response, next) {
   next(error);
 });
 
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true}));
+
 // Tell server what to do when it GETs '/'
 app.get('/', function(request, response){  
   response.render('index.html', {
@@ -45,14 +49,23 @@ app.get('/', function(request, response){
 
 // Add path for each game based on game index
 app.get('/:gameIndex', function(request, response){
-  let index = Number.parseInt(request.params.gameIndex);
+  let gameIndex = Number.parseInt(request.params.gameIndex);
 
-  if(Number.isNaN(index) || !globalGames[index]) {
+  if(Number.isNaN(gameIndex) || !globalGames[gameIndex]) {
     return response.redirect('/');
   } 
   response.render('game.html', {
-    index: request.params.gameIndex
+    gameIndex: gameIndex,
+    game: globalGames[gameIndex]
   });
+});
+
+app.post('/:gameIndex', (request, response) => {
+  let { row, col } = request.body;
+  let gameIndex = request.params.gameIndex;
+  globalGames[gameIndex]
+    .play(Number.parseInt(row), Number.parseInt(col));
+  response.redirect(`/${gameIndex}`);
 });
 
 let globalGames = [];

@@ -2,6 +2,33 @@
 <html>
   <head>
     <title>Examples on examples</title>
+    <style>
+      * {
+        box-sizing: border-box;
+      }
+
+      .board {
+        display: grid;
+        grid-template-columns: 100px 100px 100px;
+        grid-template-rows: 100px 100px 100px;
+        grid-gap: 1px 1px;
+        max-width: 305px;
+      }
+
+      .space {
+        height: 100px;
+        width: 100px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: pink;
+      }
+
+      .space-contents {
+        align-self: center;
+      }
+
+    </style>
   </head>
   <body>
     {% block mainContent %}
