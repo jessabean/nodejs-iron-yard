@@ -1,0 +1,102 @@
+<!doctype html>
+
+<html>
+  <head>
+    <title>Node Training - Day 1</title>
+    <style>
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: Helvetica, Arial, sans-serif;
+      }
+
+      #main {
+        max-width: 700px;
+        margin: 40px auto;
+      }
+
+      #search-form {
+        margin-bottom: 2rem;
+      }
+
+      #search-form label {
+        display: block;
+      }
+
+      .form-group {
+        display: flex;
+        width: auto;
+      }
+
+      #search-form-input {
+        flex: 1;
+        padding: 0.5rem;
+        font-size: 1rem;
+        border: 1px solid #CFD8DC;
+        border-right-width: 0;
+      }
+
+      .form-group button {
+        flex: none;
+        padding: 1rem 2rem;
+        font-size: 1rem;
+        border: none;
+        background: #4DB6AC;
+        color: white;
+      }
+
+      #search-results ul {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+      }
+
+      #search-results li {
+        margin-bottom: 0;
+      }
+
+      #search-results li + li {
+        border-top: 1px solid #ECEFF1;
+      }
+
+      #search-results li a {
+        display: flex;
+        align-items: center;
+        width: auto;
+        padding: 1rem;
+        background: #f8f8f8;
+        color: #607D8B;
+        text-decoration: none;
+      }
+
+      #search-results li a:hover {
+        background: #B2DFDB;
+        color: #009688;
+        cursor: pointer;
+      }
+
+      #search-results li img {
+        height: 24px;
+        width: 24px;
+        margin-right: 8px;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="main">
+      <form id="search-form">
+        <label for="search-form-input">Search Github repositories</label>
+        <div class="form-group">
+          <input type="text" id="search-form-input" />
+          <button type="submit">Search</button>
+        </div>
+      </form>
+      <div id="search-results">
+      </div>
+    </div>
+    <script src="ajax.js"></script>
+    <script src="widget.js"></script>
+  </body>
+</html>
