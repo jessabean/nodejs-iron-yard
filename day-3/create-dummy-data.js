@@ -20,7 +20,10 @@ let mkdir = function(path) {
 
 function makeNewGame() {
   let game = new TicTacToeGame();
-  game.play(2, 0);
+  let col = Math.floor(Math.random() * 3);
+  let row = Math.floor(Math.random() * 3);
+  game.play(row, col);
+
   return game;  
 }
 // game is argument that is passed to second `then` below
