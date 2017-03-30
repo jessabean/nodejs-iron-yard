@@ -14,7 +14,7 @@
   </div>
   <ul>
     {% for game in games %}
-      <li>{{ myMacros.personalMessage(game.humanFirst) }}</li>
+      <li><a href="/{{ loop.index0 }}">Game {{ loop.index0 }}: {{ myMacros.personalMessage(game.humanFirst) }}</a></li>
     {% endfor %}
   </ul>
 
