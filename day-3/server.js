@@ -78,6 +78,7 @@ app.delete('/:gameIndex', (request, response) => {
   let gameIndex = request.params.gameIndex;
   let game = globalGames[gameIndex];
   removeFile(`./sandwich/${game.fileName}`);
+  globalGames.splice(game, 1);
   response.redirect('/');
 })
 
