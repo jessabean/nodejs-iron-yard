@@ -69,8 +69,9 @@ app.get('/:gameIndex', function(request, response){
 app.post('/:gameIndex', (request, response) => {  
   let { row, col } = request.body;
   let gameIndex = request.params.gameIndex;
-  let saveGame = globalGames[gameIndex].toJson();
-  globalGames[gameIndex].play(Number.parseInt(row), Number.parseInt(col));
+  let game = globalGames[gameIndex];
+  game.play(Number.parseInt(row), Number.parseInt(col));
+  saveGame(game);
   response.redirect(`/${gameIndex}`);
 });
 
@@ -81,6 +82,13 @@ app.delete('/:gameIndex', (request, response) => {
   globalGames.splice(game, 1);
   response.redirect('/');
 })
+
+function saveGame(game) {
+  return new Promise(function (resolve, reject) {
+    game.toJson()
+      .then(json => writeFile(game.fileName, json));
+  });
+}
 
 let globalGames = [];
 
