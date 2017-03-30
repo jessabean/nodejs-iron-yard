@@ -39,6 +39,14 @@ app.use(function(error, request, response, next) {
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true}));
 
+app.use(function(request, response, next) {
+  let reqMethod = request.body["X-HTTP-METHOD"];
+  if(reqMethod === "Delete") {
+    request.method="DELETE";
+  }
+  next();     // go to the next middleware
+});
+
 // Tell server what to do when it GETs '/'
 app.get('/', function(request, response){  
   response.render('index.html', {
@@ -67,6 +75,12 @@ app.post('/:gameIndex', (request, response) => {
     .play(Number.parseInt(row), Number.parseInt(col));
   response.redirect(`/${gameIndex}`);
 });
+
+app.delete('/:gameIndex', (request, response) => {
+  let gameIndex = request.params.gameIndex;
+  globalGames[gameIndex] = null;
+  response.redirect('/');
+})
 
 let globalGames = [];
 
