@@ -1,7 +1,3 @@
-// Use promises to
-//* 1. read the sandwich directory to get a list of files inside
-//* 2. then for each of the files, read the contents of each file
-//* 3. object-ify the contents into a module-level list of games
 const path = './sandwich';
 let TicTacToeGame = require('./src/tic-tac-toe-game');
 let fs = require('fs');
@@ -9,6 +5,8 @@ let BBPromise = require('bluebird');
 let bodyParser = require('body-parser');
 let readdir = BBPromise.promisify(fs.readdir);
 let readFile = BBPromise.promisify(fs.readFile);
+let writeFile = BBPromise.promisify(fs.writeFile);
+let removeFile = BBPromise.promisify(fs.unlink);
 let express = require('express');
 let nunjucks = require('nunjucks');
 let games = [];
@@ -68,17 +66,18 @@ app.get('/:gameIndex', function(request, response){
   });
 });
 
-app.post('/:gameIndex', (request, response) => {
+app.post('/:gameIndex', (request, response) => {  
   let { row, col } = request.body;
   let gameIndex = request.params.gameIndex;
-  globalGames[gameIndex]
-    .play(Number.parseInt(row), Number.parseInt(col));
+  let saveGame = globalGames[gameIndex].toJson();
+  globalGames[gameIndex].play(Number.parseInt(row), Number.parseInt(col));
   response.redirect(`/${gameIndex}`);
 });
 
 app.delete('/:gameIndex', (request, response) => {
   let gameIndex = request.params.gameIndex;
-  globalGames[gameIndex] = null;
+  let game = globalGames[gameIndex];
+  removeFile(`./sandwich/${game.fileName}`);
   response.redirect('/');
 })
 
@@ -95,6 +94,13 @@ function createGameFromJson(json) {
 function addToGamesList(game) {
   games.push(game);
   return games;
+}
+
+function makeNewGame() {
+  let index = Math.floor(Math.random() * (2 - 1)) + 1;
+  let hf = (index === 1) ? true : false;
+  let game = new TicTacToeGame({humanFirst: hf});
+  return game;  
 }
 
 readdir('./sandwich')
