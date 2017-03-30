@@ -103,6 +103,10 @@ readdir('./sandwich')
     for (let file of files) {
       let readFiles = readFile(`./sandwich/${file}`, 'utf8')
         .then(fileContents => createGameFromJson(fileContents))
+        .then(game => {
+          game.fileName = file;
+          return game;
+        })
         .then(game => addToGamesList(game))
         .catch(err => console.error(err));
       processedGames.push(readFiles);
